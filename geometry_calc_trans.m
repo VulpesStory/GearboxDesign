@@ -17,7 +17,7 @@ a_w = a + del_a;
 alp_tw = acos(a / a_w * cos(alp_t));
 x_sum = sum(z) * (evol(alp_tw) - evol(alp_t)) / 2 / tan(alp);
 x = zeros(1,2,'double');
-x(1) = round(0.5 * x_sum, 1);
+x(1) = sround(0.5 * x_sum, 1);
 x(2) = x(1);
 h_f = m * (h_a_star + c - x);
 y = (a_w - a) / m;
@@ -39,11 +39,13 @@ M = m * z * cos(alp_t) ./ cos(alp_D) + D;
 
 %% Отклонение для размеров по роликам М 
 % F_r = [22 26]; %табл 15
-E_Wms_1 = -[16 22];% I слагаемое табл 25
-E_Wms_2 = -[5 7]; % II слагаемое табл 26
+E_Wms_1 = -[16 22];% I слагаемое табл. 25
+F_r = [22, 26]; % Допуск на радиальное биение зубчатого венца, табл. 15
+E_Wms_2 = -[5 7]; % II слагаемое табл. 26
 E_Wms = E_Wms_1 + E_Wms_2; 
 T_Wm = [16 19]; % табл 27
 
 beta_b = asin(sin(beta) * cos(alp));
-E_Ms = E_Wms ./ sin(alp_D) / cos(beta_b);
-T_M = T_Wm ./ sin(alp_D) / cos(beta_b);
+E_Ms = -round(E_Wms ./ sin(alp_D) / cos(beta_b));
+T_M = round(T_Wm ./ sin(alp_D) / cos(beta_b));
+E_Mi = E_Ms - T_M;

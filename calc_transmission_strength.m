@@ -5,8 +5,8 @@ geometry_calc_trans();
 T2 = M_out * 1000; % N mm
 b_w = 4;
 n = [n_out * u, n_out];
-psi_ba = round(b_w / a_w, 1);
-psi_bd = round(psi_ba * (u + 1) / 2, 1);
+psi_ba = sround(b_w / a_w, 1);
+psi_bd = sround(psi_ba * (u + 1) / 2, 1);
 L = 6000;
 g_0 = 4.7;
 v = pi * d(2) * n(2) / 6e+4;
