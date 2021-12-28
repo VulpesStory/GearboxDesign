@@ -27,17 +27,17 @@ M2 = F_n * Z2 - R_A * (Z2 - S);
 Z3 = (S + U):dZ:(S + U + V);
 Q3 = ones(1, numel(Z3)) * (F_n - R_A + R_B);
 M3 = F_n * Z3 - R_A * (Z3 - S) + R_B * (Z3 - S - U);
-% % Перерезывающая сила
-% Q1(end) = Q2(1);
-% Q2(end) = Q3(1);
-% Q3(end) = 0;
-% h = figure();
-% plot(Z1, Q1, Z2, Q2, Z3, Q3, "LineWidth", 3);
-% grid on;
-% % Изгибающий момент
-% h = figure();
-% plot(Z1, M1, Z2, M2, Z3, M3, "LineWidth", 3);
-% grid on;
+% Перерезывающая сила
+Q1(end) = Q2(1);
+Q2(end) = Q3(1);
+Q3(end) = 0;
+h = figure();
+plot(Z1, Q1, Z2, Q2, Z3, Q3, "LineWidth", 3);
+grid on;
+% Изгибающий момент
+h = figure();
+plot(Z1, M1, Z2, M2, Z3, M3, "LineWidth", 3);
+grid on;
 
 %% Проверка прочности в опасном сечении
 M_dan = max(abs([M1, M2, M3]));
