@@ -34,24 +34,30 @@ LuT = [
     93,     258,    551,    706,    1135,   1259;
     0.25,   0.4,    0.5,    0.7,    0.8,    1.0;
     0.6,    1.0,    1.5,    2.0,    2.5,    3.0];
-d_thr = 2; % mm
-scr = LuT(2:end, LuT(1,:) == d_thr);
+d = 2; % mm
+scr = LuT(2:end, LuT(1,:) == d);
 Q = scr(1); % N, усилие затяжки
 p_thr = scr(2); % mm, шаг резьбы
-l_S = d_thr %scr(3); % mm, "короткая" длина свинчивания
-d1 = 0.8 * d_thr;
+l_S = d % длина свинчивания
+d1 = 0.8 * d;
+
+K = 2.3; % коэффициент запаса (средний из диапазона 1.5..3.1)
 % По ГОСТу 1759.0-87, 23 группа сталей (например, 20Х13)
 sig_T_scr = 540; % MPa
+% закаленный и состаренный Д16 сплав
+sig_T_plate = 350; % MPa
+sig_br_lim_plate = sig_T_plate / K;
+
 
 % Проверка на разрыв
 F_scr = pi * d1^2 / 4; % mm^2
 sig_br = 1.3 * Q / F_scr
-sig_br_lim = sig_T_scr / 2.3
+sig_br_lim = sig_T_scr / K
 
 % Проверка на срез
-tau_sl = Q / pi / d1 / 0.75 / l_S
-tau_sl_lim = 0.75 * sig_br_lim
+tau_sl = Q / pi / d / 0.88 / l_S
+tau_sl_lim = 0.75 * sig_br_lim_plate
 
 % Проверка на смятие
-sig_cr = 4 * Q / pi / (d_thr^2 - d1^2) / (l_S / p_thr)
-sig_cr_lim = 0.4 * sig_br_lim
+sig_cr = 4 * Q / pi / (d^2 - d1^2) / (l_S / p_thr)
+sig_cr_lim = 0.4 * sig_br_lim_plate

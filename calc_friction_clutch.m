@@ -42,18 +42,19 @@ p = F2 / F_ring
 
 %% Расчет пружины на ЭВМ
 spring_data();
-D_sp = 12; % mm
+D_sp_0 = 10; % mm
 F3 = 1.2 * F2;
-i_sp = D_sp ./ d_sp;
+i_sp = D_sp_0 ./ d_sp + 1;
 k_sp = (4 * i_sp - 1) ./ (4 * i_sp - 4) + 0.615 ./ i_sp;
 tau_sp = 0.32 * sig_B_sp;
 d_sp_min = 1.6 * sqrt(F3 * i_sp .* k_sp ./ tau_sp);
 d_sp_min(d_sp >= d_sp_min)
 d_sp_cor = d_sp(d_sp >= d_sp_min)
+D_sp = D_sp_0 + d_sp_cor
 
 G = 81000; % MPa
 S2 = 5; % mm
-n_sp = round(G * S2 * d_sp_cor.^4 / 8 / F2 / D_sp^3)
-S2 = 8 * F2 * n_sp * D_sp^3 / G ./ d_sp_cor.^4
+n_sp = round(G * S2 * d_sp_cor.^4 / 8 / F2 ./ D_sp.^3)
+S2 = 8 * F2 * n_sp .* D_sp.^3 ./ G ./ d_sp_cor.^4
 L = d_sp_cor .* (n_sp + 1)
 C = F2 ./ S2
